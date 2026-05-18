@@ -157,6 +157,7 @@ export default function EditorialGallery() {
           ══════════════════════════════════════════ */}
       <section
         ref={ref2}
+        className="editorial-spread-2"
         style={{
           position: 'relative',
           height: '72vh',
@@ -187,6 +188,7 @@ export default function EditorialGallery() {
 
         {/* Text — bottom left */}
         <motion.div
+          className="editorial-float-copy"
           initial={{ opacity: 0, y: 28 }}
           animate={inView2 ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 1.0, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
@@ -219,10 +221,10 @@ export default function EditorialGallery() {
 
         {/* Top-right caption */}
         <motion.p
+          className="label editorial-caption"
           initial={{ opacity: 0 }}
           animate={inView2 ? { opacity: 1 } : {}}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="label"
           style={{
             position: 'absolute',
             top: '40px',
@@ -265,6 +267,7 @@ export default function EditorialGallery() {
 
         {/* Text column — right */}
         <motion.div
+          className="editorial-text-panel"
           initial={{ opacity: 0, x: 24 }}
           animate={inView3 ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.95, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}

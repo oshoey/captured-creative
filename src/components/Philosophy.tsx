@@ -15,6 +15,7 @@ export default function Philosophy() {
   return (
     <section
       id="philosophy"
+      className="bottom-grid-section"
       ref={ref}
       style={{
         padding: '52px 40px',

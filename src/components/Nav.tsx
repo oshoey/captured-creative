@@ -28,6 +28,7 @@ export default function Nav() {
   return (
     <>
       <motion.nav
+        className="site-nav"
         style={{
           position: 'fixed',
           top: 0,
@@ -134,6 +135,7 @@ export default function Nav() {
         {open && (
           <motion.div
             key="mobile-menu"
+            className="mobile-menu"
             initial={{ opacity: 0, x: '100%' }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: '100%' }}

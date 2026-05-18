@@ -27,6 +27,7 @@ export default function Contact() {
   return (
     <section
       id="contact"
+      className="bottom-grid-section contact-section"
       ref={ref}
       style={{
         padding: '52px 40px',

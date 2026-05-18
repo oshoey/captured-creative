@@ -17,6 +17,7 @@ export default function Services() {
   return (
     <section
       id="services"
+      className="bottom-grid-section"
       ref={ref}
       style={{
         padding: '52px 40px',

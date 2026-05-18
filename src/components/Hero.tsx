@@ -14,6 +14,7 @@ export default function Hero() {
     <section ref={sectionRef} id="hero" className="hero-grid">
       {/* ─── LEFT: text ─── */}
       <div
+        className="hero-copy"
         style={{
           position: 'relative',
           zIndex: 2,

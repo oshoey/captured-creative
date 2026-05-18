@@ -16,6 +16,7 @@ export default function Process() {
   return (
     <section
       id="process"
+      className="bottom-grid-section"
       ref={ref}
       style={{
         padding: '52px 40px',

@@ -8,6 +8,7 @@ export interface ProjectData {
   category: string
   year: string
   url: string
+  previewOnly?: boolean
   description: string
   services: string[]
   Mockup: React.ComponentType
@@ -67,7 +68,7 @@ export default function ProjectOverlay({ projects, activeIndex, onClose, onNavig
       }}
     >
       {/* ── Header ── */}
-      <div style={{
+      <div className="overlay-header" style={{
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         padding: '0 40px', height: 'var(--nav-height)',
         borderBottom: '1px solid var(--border)', flexShrink: 0,
@@ -117,6 +118,7 @@ export default function ProjectOverlay({ projects, activeIndex, onClose, onNavig
         >
           {/* ──────────────── LEFT: project text ──────────────── */}
           <motion.div
+            className="overlay-details"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
@@ -190,22 +192,36 @@ export default function ProjectOverlay({ projects, activeIndex, onClose, onNavig
 
             {/* CTA + navigation */}
             <div style={{ paddingTop: '32px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
-              <a
-                href={project.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={linkStyle}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = 'rgba(245,245,245,0.42)'
-                  e.currentTarget.style.backgroundColor = 'rgba(245,245,245,0.04)'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = 'rgba(245,245,245,0.18)'
-                  e.currentTarget.style.backgroundColor = 'transparent'
-                }}
-              >
-                View Live Site <ExternalLink size={11} strokeWidth={1.5} />
-              </a>
+              {project.previewOnly ? (
+                <span
+                  aria-disabled="true"
+                  style={{
+                    ...linkStyle,
+                    color: 'rgba(245,245,245,0.54)',
+                    borderColor: 'rgba(245,245,245,0.12)',
+                    cursor: 'default',
+                  }}
+                >
+                  Preview Coming Soon
+                </span>
+              ) : (
+                <a
+                  href={project.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={linkStyle}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor = 'rgba(245,245,245,0.42)'
+                    e.currentTarget.style.backgroundColor = 'rgba(245,245,245,0.04)'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor = 'rgba(245,245,245,0.18)'
+                    e.currentTarget.style.backgroundColor = 'transparent'
+                  }}
+                >
+                  View Live Site <ExternalLink size={11} strokeWidth={1.5} />
+                </a>
+              )}
 
               {/* Prev / Next */}
               <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
@@ -244,6 +260,7 @@ export default function ProjectOverlay({ projects, activeIndex, onClose, onNavig
 
           {/* ──────────────── RIGHT: browser frame ──────────────── */}
           <motion.div
+            className="overlay-preview"
             initial={{ opacity: 0, scale: 0.97 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
@@ -265,7 +282,7 @@ export default function ProjectOverlay({ projects, activeIndex, onClose, onNavig
               return (
                 <>
                   {/* macOS-style browser window */}
-                  <div style={{
+                  <div className="browser-frame" style={{
                     flex: 1,
                     display: 'flex', flexDirection: 'column',
                     border: '1px solid rgba(245,245,245,0.08)',
@@ -370,21 +387,25 @@ export default function ProjectOverlay({ projects, activeIndex, onClose, onNavig
                       {/* Right — bookmark + external */}
                       <div style={{ display: 'flex', gap: '8px', flexShrink: 0, opacity: 0.2 }}>
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#F5F5F5" strokeWidth="1.5" strokeLinecap="round"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
-                        <a
-                          href={project.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          style={{ display: 'flex', alignItems: 'center', opacity: 1, transition: 'opacity 0.2s' }}
-                          onMouseEnter={(e) => ((e.currentTarget.parentElement as HTMLElement).style.opacity = '0.72')}
-                          onMouseLeave={(e) => ((e.currentTarget.parentElement as HTMLElement).style.opacity = '0.2')}
-                        >
+                        {project.previewOnly ? (
                           <ExternalLink size={11} strokeWidth={1.5} color="#F5F5F5" />
-                        </a>
+                        ) : (
+                          <a
+                            href={project.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{ display: 'flex', alignItems: 'center', opacity: 1, transition: 'opacity 0.2s' }}
+                            onMouseEnter={(e) => ((e.currentTarget.parentElement as HTMLElement).style.opacity = '0.72')}
+                            onMouseLeave={(e) => ((e.currentTarget.parentElement as HTMLElement).style.opacity = '0.2')}
+                          >
+                            <ExternalLink size={11} strokeWidth={1.5} color="#F5F5F5" />
+                          </a>
+                        )}
                       </div>
                     </div>
 
                     {/* Live mockup content */}
-                    <div style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
+                    <div className="browser-content" style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
                       <div style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
                         <project.Mockup />
                       </div>

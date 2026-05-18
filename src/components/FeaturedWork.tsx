@@ -1233,7 +1233,8 @@ const projects: ProjectData[] = [
     title: 'Golden Valley Roofing',
     category: 'Website Design',
     year: '2024',
-    url: 'https://golden-valley-roofing.lovable.app',
+    url: 'https://goldenvalley.captured-creative.com',
+    previewOnly: true,
     description: 'A premium roofing company serving Derbyshire and the wider Midlands — slate reroofs, leadwork, chimney restoration and emergency callouts. Warm amber and deep charcoal branding built around real craft and real photography, designed to convert enquiries into booked jobs.',
     services: ['Website Design', 'Brand Identity', 'SEO Copywriting', 'Photography Direction', 'Hosting & Maintenance'],
     Mockup: RoofingMockup,
@@ -1243,7 +1244,8 @@ const projects: ProjectData[] = [
     title: 'Allcar Electronics',
     category: 'E-Commerce Platform',
     year: '2024',
-    url: 'https://allcar-electronics.lovable.app',
+    url: 'https://allcar.captured-creative.com',
+    previewOnly: true,
     description: 'A specialist UK automotive electronics platform for Allcar Electronics — serving trade garages and vehicle owners since the 1990s. Full inventory management for 20,000+ ECU units, trade search with part-number filtering, ECU hire and repair booking, and a fully functional cart. Deep navy tech aesthetic with electric blue and cyan glow accents, PCB-grid texture, and gold heritage accents. Built with React, TanStack Router and Tailwind CSS v4.',
     services: ['Full-Stack Development', 'UI / UX Design', 'Inventory Management System', 'E-Commerce & Cart', 'SEO Copywriting', 'Hosting & Maintenance'],
     Mockup: AllcarMockup,
@@ -1253,7 +1255,8 @@ const projects: ProjectData[] = [
     title: 'Lakeside Garden 湖泮楼',
     category: 'Online Ordering System',
     year: '2024',
-    url: 'https://lakeside-garden.lovable.app',
+    url: 'https://lakeside.captured-creative.com',
+    previewOnly: true,
     description: 'A fully-functional Chinese takeaway ordering system for Lakeside Garden 湖泮楼 in Alfreton. Bilingual English / 中文 interface, live basket, discount engine, collection or delivery checkout — built with React, TanStack Router, and Tailwind CSS.',
     services: ['Full-Stack Development', 'UI / UX Design', 'Bilingual System (EN/中文)', 'Online Ordering & Checkout', 'Hosting & Maintenance'],
     Mockup: LakesideMockup,
@@ -1315,6 +1318,7 @@ export default function FeaturedWork() {
       <div className="work-panels">
         {projects.map(({ id, title, category, Mockup }, i) => (
           <motion.div
+            className="work-panel"
             key={id}
             initial={{ opacity: 0, y: 16 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
