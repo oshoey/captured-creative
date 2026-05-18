@@ -1,0 +1,291 @@
+/* ============================================
+   CAPTURED — Global Styles
+   ============================================ */
+
+:root {
+  --black: #050505;
+  --charcoal: #111111;
+  --white: #F5F5F5;
+  --grey: #A1A1A1;
+  --silver: #C8C8C8;
+  --border: rgba(245, 245, 245, 0.11);
+  --border-em: rgba(245, 245, 245, 0.20);
+  --border-hover: rgba(245, 245, 245, 0.22);
+  --nav-height: 64px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  background-color: var(--black);
+  color: var(--white);
+  font-family: 'Inter Tight', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+#root {
+  width: 100%;
+  max-width: 100%;
+  text-align: left;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* ============================================
+   GRAIN OVERLAY
+   ============================================ */
+
+.grain {
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+  opacity: 0.032;
+  pointer-events: none;
+  z-index: 9999;
+  animation: grain 0.45s steps(1) infinite;
+  will-change: transform;
+}
+
+@keyframes grain {
+  0%   { transform: translate(0, 0); }
+  10%  { transform: translate(-2%, -3%); }
+  20%  { transform: translate(3%, 2%); }
+  30%  { transform: translate(-1%, 4%); }
+  40%  { transform: translate(4%, -1%); }
+  50%  { transform: translate(-3%, 3%); }
+  60%  { transform: translate(2%, -4%); }
+  70%  { transform: translate(-4%, 1%); }
+  80%  { transform: translate(1%, -2%); }
+  90%  { transform: translate(-2%, 4%); }
+  100% { transform: translate(0, 0); }
+}
+
+/* ============================================
+   TYPOGRAPHY UTILITIES
+   ============================================ */
+
+.label {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--grey);
+  line-height: 1.6;
+}
+
+.section-num {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  color: var(--grey);
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+}
+
+/* ============================================
+   LAYOUT GRIDS (responsive)
+   ============================================ */
+
+.hero-grid {
+  position: relative;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+}
+
+.work-section {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  border-top: 1px solid var(--border);
+}
+
+.work-panels {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.bottom-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--border);
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.section-header-line {
+  flex: 1;
+  height: 1px;
+  background-color: var(--border);
+}
+
+/* ============================================
+   EDITORIAL GALLERY — responsive collapses
+   ============================================ */
+
+@media (max-width: 900px) {
+  .editorial-spread-1 {
+    grid-template-columns: 1fr !important;
+    height: auto !important;
+  }
+
+  .editorial-spread-1 > *:first-child {
+    border-right: none !important;
+    border-bottom: 1px solid var(--border);
+    min-height: 280px;
+  }
+
+  .editorial-spread-1 > *:last-child {
+    min-height: 55vw;
+    position: relative;
+  }
+
+  .editorial-spread-3 {
+    grid-template-columns: 1fr !important;
+    height: auto !important;
+  }
+
+  .editorial-spread-3 > *:first-child {
+    min-height: 55vw;
+  }
+
+  .editorial-spread-3 > *:last-child {
+    border-left: none !important;
+    border-top: 1px solid var(--border);
+  }
+}
+
+/* ============================================
+   SECTION BREATHING ROOM
+   ============================================ */
+
+/* Hero — stronger visual separator at bottom */
+.hero-grid {
+  border-bottom: 1px solid var(--border-em);
+}
+
+/* Work panels — brighter separation between panels */
+.work-panels > * + * {
+  border-left: 1px solid var(--border);
+}
+
+/* Bottom grid — Philosophy is light; give its bottom border a dark edge */
+.bottom-grid {
+  border-bottom: 1px solid var(--border);
+}
+
+/* Prevent Philosophy's white bg from bleeding into the dark top border */
+.bottom-grid > *:first-child {
+  border-top: none;
+}
+
+/* ============================================
+   SCROLLBAR
+   ============================================ */
+
+::-webkit-scrollbar {
+  width: 3px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--black);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--charcoal);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 1200px) {
+  .bottom-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Restore vertical rhythm in 2-col layout */
+  .bottom-grid > *:nth-child(2) {
+    border-top: none;
+  }
+
+  .bottom-grid > *:nth-child(n+3) {
+    border-top: 1px solid var(--border);
+  }
+
+  /* Philosophy (col 1, light): dark right border so it reads on white */
+  .bottom-grid > *:nth-child(odd) {
+    border-right: 1px solid rgba(5, 5, 5, 0.1);
+  }
+}
+
+@media (max-width: 1024px) {
+  .work-section {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .work-panels {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --nav-height: 56px;
+  }
+
+  .desktop-nav-links {
+    display: none !important;
+  }
+
+  .hero-grid {
+    grid-template-columns: 1fr;
+    min-height: 100svh;
+  }
+
+  .work-panels {
+    grid-template-columns: 1fr;
+  }
+
+  .bottom-grid {
+    grid-template-columns: 1fr;
+  }
+}
