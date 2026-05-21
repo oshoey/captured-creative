@@ -1,20 +1,22 @@
 import { useState } from 'react'
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 const links = [
-  { label: 'Work', href: '#work' },
-  { label: 'Film', href: '#film' },
-  { label: 'Services', href: '#services' },
-  { label: 'About', href: '#philosophy' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Work', to: '/work' },
+  { label: 'Services', to: '/services' },
+  { label: 'About', to: '/about' },
+  { label: 'Contact', to: '/contact' },
 ]
+
+const MotionLink = motion.create(Link)
 
 export default function Nav() {
   const [open, setOpen] = useState(false)
   const { scrollY } = useScroll()
   const bgOpacity = useTransform(scrollY, [0, 80], [0, 1])
-  const borderOpacity = useTransform(scrollY, [0, 80], [0, 1])
+  const borderOpacity = useTransform(scrollY, [0, 80], [0, 0.14])
 
   const navLinkStyle: React.CSSProperties = {
     fontSize: '11px',
@@ -54,16 +56,20 @@ export default function Nav() {
           }}
         />
 
-        {/* Metallic wordmark */}
-        <a
-          href="#"
-          onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
+        {/* Logo image */}
+        <Link
+          to="/"
           className="nav-logo-wrap"
           style={{ position: 'relative', zIndex: 1 }}
         >
-          <span className="nav-logo-text">CAPTURED</span>
+          <img
+            src="/logo-nav.png"
+            alt="Captured"
+            className="nav-logo-img"
+            draggable={false}
+          />
           <span className="nav-logo-shine" aria-hidden="true" />
-        </a>
+        </Link>
 
         {/* Desktop nav */}
         <div
@@ -77,15 +83,15 @@ export default function Nav() {
           }}
         >
           {links.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
+            <Link
+              key={link.to}
+              to={link.to}
               style={navLinkStyle}
               onMouseEnter={(e) => (e.currentTarget.style.color = '#F5F5F5')}
               onMouseLeave={(e) => (e.currentTarget.style.color = '#A1A1A1')}
             >
               {link.label}
-            </a>
+            </Link>
           ))}
 
           <button
@@ -107,7 +113,7 @@ export default function Nav() {
           </button>
         </div>
 
-        {/* Mobile hamburger only */}
+        {/* Mobile hamburger */}
         <button
           className="mobile-menu-btn"
           onClick={() => setOpen(true)}
@@ -153,7 +159,14 @@ export default function Nav() {
                 justifyContent: 'space-between',
               }}
             >
-              <span className="nav-logo-text">CAPTURED</span>
+              <Link to="/" onClick={() => setOpen(false)}>
+                <img
+                  src="/logo-nav.png"
+                  alt="Captured"
+                  className="nav-logo-img nav-logo-img--mobile"
+                  draggable={false}
+                />
+              </Link>
               <button
                 onClick={() => setOpen(false)}
                 aria-label="Close menu"
@@ -172,9 +185,9 @@ export default function Nav() {
               }}
             >
               {links.map((link, i) => (
-                <motion.a
-                  key={link.href}
-                  href={link.href}
+                <MotionLink
+                  key={link.to}
+                  to={link.to}
                   initial={{ opacity: 0, y: 24 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.06, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
@@ -186,12 +199,13 @@ export default function Nav() {
                     lineHeight: 1.15,
                     color: '#F5F5F5',
                     transition: 'color 0.2s',
+                    display: 'block',
                   }}
-                  onMouseEnter={(e) => (e.currentTarget.style.color = '#A1A1A1')}
-                  onMouseLeave={(e) => (e.currentTarget.style.color = '#F5F5F5')}
+                  onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => (e.currentTarget.style.color = '#A1A1A1')}
+                  onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) => (e.currentTarget.style.color = '#F5F5F5')}
                 >
                   {link.label}
-                </motion.a>
+                </MotionLink>
               ))}
             </nav>
 
@@ -203,7 +217,7 @@ export default function Nav() {
               }}
             >
               <a href="mailto:hello@captured-creative.com" className="label">Email</a>
-              <a href="https://instagram.com" className="label">Instagram</a>
+              <a href="https://instagram.com/captured.creative" className="label">Instagram</a>
             </div>
           </motion.div>
         )}

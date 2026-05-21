@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
 import { motion, useInView, AnimatePresence } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import { type ProjectData } from './ProjectOverlay'
 import ProjectOverlay from './ProjectOverlay'
 
@@ -1300,15 +1301,15 @@ export default function FeaturedWork() {
           </h2>
         </div>
 
-        <a
-          href="#work"
+        <Link
+          to="/work"
           className="label"
           style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', color: '#A1A1A1', transition: 'color 0.2s' }}
           onMouseEnter={(e) => (e.currentTarget.style.color = '#F5F5F5')}
           onMouseLeave={(e) => (e.currentTarget.style.color = '#A1A1A1')}
         >
           View All Projects <ArrowRight size={11} strokeWidth={1.5} />
-        </a>
+        </Link>
       </motion.div>
 
       {/* Right: project panels */}

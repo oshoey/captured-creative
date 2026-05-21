@@ -268,6 +268,114 @@ section[id="film"] > div:nth-child(2) {
 }
 
 /* ============================================
+   PAGE HERO (interior pages)
+   ============================================ */
+
+.page-hero {
+  padding-top: calc(var(--nav-height) + 88px);
+  padding-bottom: 88px;
+  padding-left: 40px;
+  padding-right: 40px;
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(to bottom, rgba(18,18,18,0.55) 0%, var(--black) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.page-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 100% 80% at 50% -10%, rgba(245,245,245,0.035) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.page-hero-inner {
+  position: relative;
+}
+
+.page-hero-title {
+  font-size: clamp(64px, 9vw, 130px);
+  font-weight: 700;
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+  color: #F5F5F5;
+  margin: 0;
+}
+
+/* ============================================
+   HOME SERVICES GRID
+   ============================================ */
+
+.home-services-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0 40px;
+}
+
+/* ============================================
+   SERVICE CARDS (Services page)
+   ============================================ */
+
+.service-card {
+  display: grid;
+  grid-template-columns: 100px 1fr 1fr;
+  gap: 0 48px;
+  padding: 68px 40px;
+  align-items: start;
+}
+
+/* ============================================
+   ABOUT PAGE
+   ============================================ */
+
+.about-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  padding: 96px 40px;
+  align-items: start;
+  border-top: 1px solid var(--border);
+}
+
+.about-values {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--border);
+}
+
+/* ============================================
+   CONTACT PAGE
+   ============================================ */
+
+.contact-page-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 80px;
+  padding: 88px 40px;
+  align-items: start;
+  border-top: 1px solid var(--border);
+}
+
+/* ============================================
+   NAV LOGO IMAGE
+   ============================================ */
+
+.nav-logo-img {
+  /* 1189 × 245 px asset — ratio ≈ 4.85 : 1 */
+  height: clamp(30px, 3vw, 40px);
+  width: auto;
+  max-width: 210px;
+  object-fit: contain;
+  display: block;
+  user-select: none;
+}
+
+.nav-logo-img--mobile {
+  height: clamp(26px, 6vw, 34px);
+}
+
+/* ============================================
    METALLIC NAV LOGO
    ============================================ */
 
@@ -847,5 +955,127 @@ section[id="film"] > div:nth-child(2) {
 
   .browser-content {
     min-height: 360px;
+  }
+}
+
+/* ============================================
+   RESPONSIVE — NEW PAGES
+   ============================================ */
+
+@media (max-width: 1100px) {
+  .service-card {
+    grid-template-columns: 80px 1fr;
+  }
+
+  .service-card > *:last-child {
+    grid-column: 2;
+    margin-top: 32px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .about-values {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .about-values > *:nth-child(2) {
+    border-right: none !important;
+  }
+
+  .about-values > *:nth-child(3) {
+    grid-column: 1 / -1;
+    border-top: 1px solid var(--border);
+    border-right: none !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .home-services-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0 28px;
+  }
+
+  .about-content {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .contact-page-grid {
+    grid-template-columns: 1fr;
+    gap: 56px;
+  }
+
+  .services-cta {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-hero {
+    padding-top: calc(var(--nav-height) + 56px);
+    padding-bottom: 56px;
+    padding-left: 22px !important;
+    padding-right: 22px !important;
+  }
+
+  .service-card {
+    grid-template-columns: 1fr;
+    padding: 44px 22px;
+    gap: 20px;
+  }
+
+  .service-card > *:last-child {
+    grid-column: auto;
+    margin-top: 0;
+  }
+
+  .about-content {
+    padding: 56px 22px;
+  }
+
+  .about-values {
+    grid-template-columns: 1fr;
+  }
+
+  .about-value-panel {
+    padding: 40px 22px !important;
+    border-right: none !important;
+    border-top: 1px solid var(--border);
+  }
+
+  .about-values > *:first-child {
+    border-top: none;
+  }
+
+  .contact-page-grid {
+    padding: 56px 22px;
+  }
+
+  .contact-form-row {
+    grid-template-columns: 1fr !important;
+  }
+
+  .nav-logo-wrap img {
+    height: 22px;
+  }
+
+  .home-services-grid {
+    gap: 0 20px;
+  }
+
+  section.home-services-section {
+    padding: 56px 22px !important;
+  }
+
+  .services-cta {
+    padding: 64px 22px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-services-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
   }
 }

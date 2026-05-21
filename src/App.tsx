@@ -1,21 +1,26 @@
 import { useEffect, useState } from 'react'
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import Lenis from 'lenis'
 import Intro from './components/Intro'
 import Nav from './components/Nav'
-import Hero from './components/Hero'
-import FeaturedWork from './components/FeaturedWork'
-import AllCarElectronics from './components/AllCarElectronics'
-import Videography from './components/Videography'
-import EditorialGallery from './components/EditorialGallery'
-import Philosophy from './components/Philosophy'
-import Services from './components/Services'
-import Process from './components/Process'
-import Contact from './components/Contact'
 import Footer from './components/Footer'
 import CapturedTransitionOverlay from './components/CapturedTransitionOverlay'
+import HomePage from './pages/HomePage'
+import WorkPage from './pages/WorkPage'
+import ServicesPage from './pages/ServicesPage'
+import AboutPage from './pages/AboutPage'
+import ContactPage from './pages/ContactPage'
 
-export default function App() {
+function ScrollToTop() {
+  const { pathname } = useLocation()
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
+  }, [pathname])
+  return null
+}
+
+function AppContent() {
   const [introComplete, setIntroComplete] = useState(false)
 
   useEffect(() => {
@@ -45,22 +50,27 @@ export default function App() {
         transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
         style={{ transformOrigin: 'center top' }}
       >
+        <ScrollToTop />
         <Nav />
         <main>
-          <Hero />
-          <FeaturedWork />
-          <AllCarElectronics />
-          <Videography />
-          <EditorialGallery />
-          <div className="bottom-grid">
-            <Philosophy />
-            <Services />
-            <Process />
-            <Contact />
-          </div>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/work" element={<WorkPage />} />
+            <Route path="/services" element={<ServicesPage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+          </Routes>
         </main>
         <Footer />
       </motion.div>
     </>
+  )
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <AppContent />
+    </BrowserRouter>
   )
 }
