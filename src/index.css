@@ -224,6 +224,48 @@ footer {
 }
 
 /* ============================================
+   VIDEO GRID (Videography section)
+   ============================================ */
+
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-bottom: 1px solid var(--border);
+}
+
+.video-grid > * {
+  border-right: 1px solid var(--border);
+}
+
+.video-grid > *:nth-child(3n) {
+  border-right: none;
+}
+
+/* Category tabs scroll hide */
+.video-grid + div,
+section[id="film"] > div:nth-child(2) {
+  scrollbar-width: none;
+}
+
+/* ============================================
+   ALLCAR CASE STUDY
+   ============================================ */
+
+.allcar-header-grid {
+  grid-template-columns: 280px 1fr;
+}
+
+.allcar-mockup-grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.allcar-services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0 40px;
+}
+
+/* ============================================
    SCROLLBAR
    ============================================ */
 
@@ -263,6 +305,16 @@ footer {
   }
 }
 
+@media (max-width: 1100px) {
+  .allcar-mockup-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  .allcar-mockup-grid > *:last-child {
+    grid-column: 1 / -1;
+  }
+}
+
 @media (max-width: 1024px) {
   .work-section {
     grid-template-columns: 1fr;
@@ -297,6 +349,22 @@ footer {
 }
 
 @media (max-width: 900px) {
+  .video-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .video-grid > *:nth-child(3n) {
+    border-right: 1px solid var(--border);
+  }
+
+  .video-grid > *:nth-child(2n) {
+    border-right: none;
+  }
+
+  .allcar-services-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
   .work-panels {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -339,6 +407,69 @@ footer {
 }
 
 @media (max-width: 768px) {
+  .video-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .video-grid > * {
+    border-right: none !important;
+  }
+
+  .allcar-header-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .allcar-header-grid > *:first-child {
+    border-right: none !important;
+    border-bottom: 1px solid var(--border);
+    padding: 40px 22px !important;
+  }
+
+  .allcar-header-grid > *:last-child {
+    padding: 40px 22px !important;
+  }
+
+  .allcar-mockup-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .allcar-mockup-grid > * {
+    grid-column: auto !important;
+  }
+
+  .allcar-services-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .allcar-services-header {
+    flex-direction: column !important;
+    gap: 8px !important;
+  }
+
+  section[id="film"] > div:first-child {
+    min-height: 55svh;
+  }
+
+  section[id="film"] > div:first-child > div:last-child {
+    padding-left: 22px !important;
+    padding-right: 22px !important;
+    padding-bottom: 36px !important;
+  }
+
+  section[id="film"] > div:first-child > div:last-child h2 {
+    font-size: clamp(46px, 14vw, 70px) !important;
+  }
+
+  section[id="film"] > div:nth-child(2) {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  section[id="allcar"] > div > div[style*="padding: '52px 44px'"],
+  section[id="allcar"] > div:last-child {
+    padding: 40px 22px !important;
+  }
+
   :root {
     --nav-height: 56px;
   }

@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, ArrowRight, ArrowLeft, ExternalLink, ChevronLeft, ChevronRight } from 'lucide-react'
+import { X, ArrowRight, ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react'
+import { handleProjectLaunch, LiveSiteButton } from './CapturedTransitionOverlay'
 
 export interface ProjectData {
   id: string
@@ -44,16 +45,6 @@ export default function ProjectOverlay({ projects, activeIndex, onClose, onNavig
     document.body.style.overflow = 'hidden'
     return () => { document.body.style.overflow = prev }
   }, [])
-
-  const linkStyle: React.CSSProperties = {
-    display: 'inline-flex', alignItems: 'center', gap: '10px',
-    fontSize: '11px', fontWeight: 400, letterSpacing: '0.16em',
-    textTransform: 'uppercase', color: '#F5F5F5',
-    transition: 'border-color 0.3s, background-color 0.3s',
-    padding: '13px 22px',
-    border: '1px solid rgba(245,245,245,0.18)',
-    cursor: 'pointer',
-  }
 
   return (
     <motion.div
@@ -192,36 +183,7 @@ export default function ProjectOverlay({ projects, activeIndex, onClose, onNavig
 
             {/* CTA + navigation */}
             <div style={{ paddingTop: '32px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
-              {project.previewOnly ? (
-                <span
-                  aria-disabled="true"
-                  style={{
-                    ...linkStyle,
-                    color: 'rgba(245,245,245,0.54)',
-                    borderColor: 'rgba(245,245,245,0.12)',
-                    cursor: 'default',
-                  }}
-                >
-                  Preview Coming Soon
-                </span>
-              ) : (
-                <a
-                  href={project.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={linkStyle}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = 'rgba(245,245,245,0.42)'
-                    e.currentTarget.style.backgroundColor = 'rgba(245,245,245,0.04)'
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor = 'rgba(245,245,245,0.18)'
-                    e.currentTarget.style.backgroundColor = 'transparent'
-                  }}
-                >
-                  View Live Site <ExternalLink size={11} strokeWidth={1.5} />
-                </a>
-              )}
+              <LiveSiteButton url={project.url} />
 
               {/* Prev / Next */}
               <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
@@ -387,20 +349,21 @@ export default function ProjectOverlay({ projects, activeIndex, onClose, onNavig
                       {/* Right — bookmark + external */}
                       <div style={{ display: 'flex', gap: '8px', flexShrink: 0, opacity: 0.2 }}>
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#F5F5F5" strokeWidth="1.5" strokeLinecap="round"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
-                        {project.previewOnly ? (
-                          <ExternalLink size={11} strokeWidth={1.5} color="#F5F5F5" />
-                        ) : (
-                          <a
-                            href={project.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            style={{ display: 'flex', alignItems: 'center', opacity: 1, transition: 'opacity 0.2s' }}
-                            onMouseEnter={(e) => ((e.currentTarget.parentElement as HTMLElement).style.opacity = '0.72')}
-                            onMouseLeave={(e) => ((e.currentTarget.parentElement as HTMLElement).style.opacity = '0.2')}
-                          >
-                            <ExternalLink size={11} strokeWidth={1.5} color="#F5F5F5" />
-                          </a>
-                        )}
+                        <button
+                          onClick={() => handleProjectLaunch(project.url)}
+                          style={{
+                            display: 'flex', alignItems: 'center',
+                            background: 'none', border: 'none', cursor: 'pointer', padding: 0,
+                            transition: 'opacity 0.2s',
+                          }}
+                          onMouseEnter={(e) => ((e.currentTarget.parentElement as HTMLElement).style.opacity = '0.72')}
+                          onMouseLeave={(e) => ((e.currentTarget.parentElement as HTMLElement).style.opacity = '0.2')}
+                          aria-label={`Launch ${project.title}`}
+                        >
+                          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#F5F5F5" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+                          </svg>
+                        </button>
                       </div>
                     </div>
 

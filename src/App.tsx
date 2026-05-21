@@ -5,12 +5,15 @@ import Intro from './components/Intro'
 import Nav from './components/Nav'
 import Hero from './components/Hero'
 import FeaturedWork from './components/FeaturedWork'
+import AllCarElectronics from './components/AllCarElectronics'
+import Videography from './components/Videography'
 import EditorialGallery from './components/EditorialGallery'
 import Philosophy from './components/Philosophy'
 import Services from './components/Services'
 import Process from './components/Process'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
+import CapturedTransitionOverlay from './components/CapturedTransitionOverlay'
 
 export default function App() {
   const [introComplete, setIntroComplete] = useState(false)
@@ -33,6 +36,7 @@ export default function App() {
   return (
     <>
       <div className="grain" aria-hidden="true" />
+      <CapturedTransitionOverlay />
       <Intro onComplete={() => setIntroComplete(true)} />
 
       <motion.div
@@ -45,6 +49,8 @@ export default function App() {
         <main>
           <Hero />
           <FeaturedWork />
+          <AllCarElectronics />
+          <Videography />
           <EditorialGallery />
           <div className="bottom-grid">
             <Philosophy />

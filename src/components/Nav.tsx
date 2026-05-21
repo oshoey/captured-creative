@@ -4,9 +4,9 @@ import { Menu, X } from 'lucide-react'
 
 const links = [
   { label: 'Work', href: '#work' },
+  { label: 'Film', href: '#film' },
   { label: 'Services', href: '#services' },
   { label: 'About', href: '#philosophy' },
-  { label: 'Process', href: '#process' },
   { label: 'Contact', href: '#contact' },
 ]
 
