@@ -933,8 +933,22 @@ section[id="film"] > div:nth-child(2) {
 
   .site-footer {
     padding: 24px 22px 30px !important;
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+
+  .site-footer > *:last-child {
+    text-align: left !important;
+  }
+
+  .footer-links {
+    flex-direction: column !important;
     align-items: flex-start !important;
-    flex-direction: column;
+    gap: 14px !important;
+  }
+
+  .footer-links > span {
+    display: none !important;
   }
 }
 
