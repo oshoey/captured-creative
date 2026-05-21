@@ -24,3 +24,4 @@ dist-ssr
 *.sw?
 Media/
 screenshot-test.cjs
+public/videos/belial-full.mp4

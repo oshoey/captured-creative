@@ -10,7 +10,6 @@ export default function FeaturedVideoWork() {
   const isInView = useInView(sectionRef, { once: true, margin: '-80px' })
   const [hovered, setHovered] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
-  const [videoPaused, setVideoPaused] = useState(false)
 
   // Lock scroll when modal is open
   useEffect(() => {
@@ -26,24 +25,23 @@ export default function FeaturedVideoWork() {
   useEffect(() => {
     if (!modalOpen) return
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        setModalOpen(false)
-        if (modalVideoRef.current) {
-          modalVideoRef.current.pause()
-          modalVideoRef.current.currentTime = 0
-        }
-        setVideoPaused(false)
-      }
+      if (e.key === 'Escape') closeModal()
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [modalOpen])
 
   const openModal = useCallback(() => {
     setModalOpen(true)
-    setVideoPaused(false)
     setTimeout(() => {
-      modalVideoRef.current?.play().catch(() => {})
+      const video = modalVideoRef.current
+      if (video) {
+        video.currentTime = 0
+        video.play().catch(() => {
+          // Autoplay with audio blocked — native controls are visible for manual play
+        })
+      }
     }, 160)
   }, [])
 
@@ -52,19 +50,6 @@ export default function FeaturedVideoWork() {
     if (modalVideoRef.current) {
       modalVideoRef.current.pause()
       modalVideoRef.current.currentTime = 0
-    }
-    setVideoPaused(false)
-  }, [])
-
-  const toggleVideoPause = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation()
-    if (!modalVideoRef.current) return
-    if (modalVideoRef.current.paused) {
-      modalVideoRef.current.play().catch(() => {})
-      setVideoPaused(false)
-    } else {
-      modalVideoRef.current.pause()
-      setVideoPaused(true)
     }
   }, [])
 
@@ -118,10 +103,9 @@ export default function FeaturedVideoWork() {
             }}
           >
             <span className="label" style={{ color: 'rgba(245,245,245,0.32)', letterSpacing: '0.22em' }}>
-              Psychological Horror Short — 2024
+              BELIAL — Psychological Horror Short · 2024
             </span>
 
-            {/* Close button */}
             <button
               onClick={(e) => { e.stopPropagation(); closeModal() }}
               style={{
@@ -151,24 +135,23 @@ export default function FeaturedVideoWork() {
             </button>
           </motion.div>
 
-          {/* Video container */}
+          {/* Video container — stopPropagation so clicking the video doesn't close the modal */}
           <motion.div
             initial={{ scale: 0.93, opacity: 0, y: 16 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.95, opacity: 0, y: 8 }}
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            onClick={toggleVideoPause}
+            onClick={(e) => e.stopPropagation()}
             style={{
               position: 'relative',
               width: 'min(94vw, 1440px)',
-              cursor: 'pointer',
             }}
           >
             <video
               ref={modalVideoRef}
-              src="/videos/belial.mp4"
+              src="/videos/belial-full.mp4"
               playsInline
-              loop
+              controls
               style={{
                 display: 'block',
                 width: '100%',
@@ -176,42 +159,6 @@ export default function FeaturedVideoWork() {
                 objectFit: 'contain',
               }}
             />
-
-            {/* Pause indicator */}
-            <AnimatePresence>
-              {videoPaused && (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.82 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.88 }}
-                  transition={{ duration: 0.18 }}
-                  style={{
-                    position: 'absolute',
-                    inset: 0,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    pointerEvents: 'none',
-                  }}
-                >
-                  <div style={{
-                    width: 60,
-                    height: 60,
-                    borderRadius: '50%',
-                    border: '1px solid rgba(245,245,245,0.22)',
-                    backgroundColor: 'rgba(5,5,5,0.55)',
-                    backdropFilter: 'blur(8px)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: 7,
-                  }}>
-                    <div style={{ width: 3, height: 16, backgroundColor: 'rgba(245,245,245,0.75)', borderRadius: 1 }} />
-                    <div style={{ width: 3, height: 16, backgroundColor: 'rgba(245,245,245,0.75)', borderRadius: 1 }} />
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
           </motion.div>
 
           {/* Bottom hint */}
@@ -229,7 +176,7 @@ export default function FeaturedVideoWork() {
             }}
           >
             <span className="label" style={{ color: 'rgba(245,245,245,0.18)', letterSpacing: '0.18em' }}>
-              Click to pause · ESC to close
+              ESC or click outside to close
             </span>
           </motion.div>
         </motion.div>
@@ -311,7 +258,7 @@ export default function FeaturedVideoWork() {
               cursor: 'pointer',
             }}
           >
-            {/* Looping background video — dims/brightens on hover */}
+            {/* Looping background video — muted preview, dims/brightens on hover */}
             <motion.video
               ref={bgVideoRef}
               src="/videos/belial.mp4"
@@ -439,7 +386,7 @@ export default function FeaturedVideoWork() {
                 </motion.h3>
               </div>
 
-              {/* Arrow — always faintly visible, brightens + slides on hover */}
+              {/* Arrow */}
               <motion.div
                 animate={{
                   opacity: hovered ? 1 : 0.35,

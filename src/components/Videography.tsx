@@ -1,81 +1,88 @@
-import { useRef, useState, useCallback } from 'react'
-import { motion, useInView } from 'framer-motion'
-import { Play } from 'lucide-react'
+import { useRef, useState, useEffect, useCallback } from 'react'
+import { motion, useInView, AnimatePresence } from 'framer-motion'
+import { Play, X } from 'lucide-react'
+import { createPortal } from 'react-dom'
 
 // ── Data ─────────────────────────────────────────────────────────────────────
 
-type Category = 'All' | 'Commercial' | 'Brand Campaigns' | 'Photography' | 'BTS' | 'Social'
+type Category = 'All' | 'Short Film' | 'Documentary' | 'Commercial'
 
 interface VideoProject {
   id: string
   title: string
+  label?: string
   description: string
   category: Exclude<Category, 'All'>
   client?: string
   role: string
   videoSrc?: string
+  fullVideoSrc?: string
   gradient: string
 }
 
-const CATEGORIES: Category[] = ['All', 'Commercial', 'Brand Campaigns', 'Photography', 'BTS', 'Social']
+const CATEGORIES: Category[] = ['All', 'Short Film', 'Documentary', 'Commercial']
 
 const projects: VideoProject[] = [
   {
-    id: 'vp-01',
-    title: 'Automotive Heritage',
-    description: 'Brand campaign capturing the craft and legacy behind vintage automotive electronics.',
-    category: 'Commercial',
+    id: 'belial',
+    title: 'BELIAL',
+    label: 'Short Film',
+    description: 'A psychological horror short exploring dread, obsession and the uncanny.',
+    category: 'Short Film',
+    role: 'Director / DP / Editor',
+    videoSrc: '/videos/belial.mp4',
+    fullVideoSrc: '/videos/belial-full.mp4',
+    gradient: 'linear-gradient(135deg, #080508 0%, #0f080f 55%, #060306 100%)',
+  },
+  {
+    id: 'exclusive-nottingham',
+    title: 'Exclusive Nottingham',
+    label: 'Short Documentary',
+    description: "An intimate portrait of Nottingham's underground culture and the people who shape it.",
+    category: 'Documentary',
+    client: 'Exclusive Nottingham',
     role: 'Director / DP',
-    gradient: 'linear-gradient(135deg, #0c0a07 0%, #1a1410 55%, #0f0d0b 100%)',
+    videoSrc: '/videos/exclusive-nottingham.mp4',
+    fullVideoSrc: '/videos/exclusive-nottingham.mp4',
+    gradient: 'linear-gradient(135deg, #060810 0%, #080c18 55%, #050609 100%)',
   },
   {
-    id: 'vp-02',
-    title: 'Restaurant Brand Film',
-    description: 'Cinematic short for an authentic Chinese restaurant — steam, fire and golden-hour plating.',
-    category: 'Brand Campaigns',
-    client: 'Lakeside Garden',
-    role: 'Director / Editor',
-    gradient: 'linear-gradient(135deg, #1a0c0c 0%, #2c1414 55%, #140909 100%)',
+    id: 'pizza-baker-1',
+    title: 'Pizza Baker Express',
+    label: 'Advert One',
+    description: 'High-energy commercial — heat, craft and appetite captured in under sixty seconds.',
+    category: 'Commercial',
+    client: 'Pizza Baker Express',
+    role: 'Director / Edit',
+    videoSrc: '/videos/pizza-baker-advert-1.mp4',
+    fullVideoSrc: '/videos/pizza-baker-advert-1.mp4',
+    gradient: 'linear-gradient(135deg, #120808 0%, #1a0c0a 55%, #0a0505 100%)',
   },
   {
-    id: 'vp-03',
-    title: 'Product Photography Series',
-    description: 'A still life series on precision engineering — ECUs on dark industrial surfaces.',
-    category: 'Photography',
-    client: 'Allcar Electronics',
-    role: 'Photographer',
-    gradient: 'linear-gradient(135deg, #080d18 0%, #0e1726 55%, #060b14 100%)',
-  },
-  {
-    id: 'vp-04',
-    title: 'Studio Build — BTS',
-    description: 'Behind the scenes of a full Captured production build from brief to delivery.',
-    category: 'BTS',
-    role: 'Camera / Edit',
-    gradient: 'linear-gradient(135deg, #0d0d0d 0%, #161616 55%, #0a0a0a 100%)',
-  },
-  {
-    id: 'vp-05',
-    title: 'Roofing Campaign Reels',
-    description: 'Short-form social content for a heritage roofing brand — aerial, on-site, craft close-ups.',
-    category: 'Social',
-    client: 'Golden Valley Roofing',
-    role: 'Content Creator / Edit',
-    gradient: 'linear-gradient(135deg, #0c0a07 0%, #181410 55%, #0a0807 100%)',
-  },
-  {
-    id: 'vp-06',
-    title: 'Midlands Brand Campaign',
-    description: 'Full production campaign — brand identity launch across web, social and print.',
-    category: 'Brand Campaigns',
-    role: 'Director',
-    gradient: 'linear-gradient(135deg, #080808 0%, #141414 55%, #060606 100%)',
+    id: 'pizza-baker-2',
+    title: 'Pizza Baker Express',
+    label: 'Advert Two',
+    description: 'A second spot — wider angles, more action and the same signature cinematic warmth.',
+    category: 'Commercial',
+    client: 'Pizza Baker Express',
+    role: 'Director / Edit',
+    videoSrc: '/videos/pizza-baker-advert-2.mp4',
+    fullVideoSrc: '/videos/pizza-baker-advert-2.mp4',
+    gradient: 'linear-gradient(135deg, #100a06 0%, #181006 55%, #0a0704 100%)',
   },
 ]
 
 // ── Video card ────────────────────────────────────────────────────────────────
 
-function VideoCard({ project, index }: { project: VideoProject; index: number }) {
+function VideoCard({
+  project,
+  index,
+  onClick,
+}: {
+  project: VideoProject
+  index: number
+  onClick?: () => void
+}) {
   const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true, margin: '-60px' })
   const [hovered, setHovered] = useState(false)
@@ -99,11 +106,12 @@ function VideoCard({ project, index }: { project: VideoProject; index: number })
       transition={{ duration: 0.75, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onClick={onClick}
       style={{
         position: 'relative',
         borderRadius: 0,
         overflow: 'hidden',
-        cursor: 'pointer',
+        cursor: onClick ? 'pointer' : 'default',
         border: '1px solid var(--border)',
       }}
     >
@@ -117,12 +125,13 @@ function VideoCard({ project, index }: { project: VideoProject; index: number })
           transform: hovered ? 'scale(1.03)' : 'scale(1)',
         }} />
 
-        {/* Optional muted video */}
+        {/* Muted preview video — lazy loaded */}
         {project.videoSrc && (
           <video
             ref={videoRef}
             src={project.videoSrc}
             muted loop playsInline
+            preload="none"
             style={{
               position: 'absolute', inset: 0,
               width: '100%', height: '100%',
@@ -133,21 +142,21 @@ function VideoCard({ project, index }: { project: VideoProject; index: number })
           />
         )}
 
-        {/* Noise grain overlay */}
+        {/* Film grain overlay */}
         <div style={{
           position: 'absolute', inset: 0, pointerEvents: 'none',
           backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
           backgroundSize: '256px 256px', opacity: 0.06,
         }} />
 
-        {/* Bottom gradient for text */}
+        {/* Bottom gradient */}
         <div style={{
           position: 'absolute', bottom: 0, left: 0, right: 0, height: '55%',
           background: 'linear-gradient(to top, rgba(5,5,5,0.88) 0%, transparent 100%)',
           pointerEvents: 'none',
         }} />
 
-        {/* Category badge — top left */}
+        {/* Category / label badge */}
         <div style={{
           position: 'absolute', top: 14, left: 14,
           padding: '3px 9px',
@@ -158,14 +167,14 @@ function VideoCard({ project, index }: { project: VideoProject; index: number })
           letterSpacing: '0.18em', textTransform: 'uppercase',
           color: 'rgba(245,245,245,0.62)',
         }}>
-          {project.category}
+          {project.label ?? project.category}
         </div>
 
-        {/* Play icon — centre, fades in on hover */}
+        {/* Play icon — always faintly visible, full on hover */}
         <div style={{
           position: 'absolute', inset: 0,
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          opacity: hovered ? 1 : 0,
+          opacity: hovered ? 1 : (onClick ? 0.28 : 0),
           transition: 'opacity 0.3s',
         }}>
           <div style={{
@@ -220,15 +229,159 @@ export default function Videography() {
   const ref = useRef<HTMLElement>(null)
   const isInView = useInView(ref, { once: true, margin: '-80px' })
   const [activeCategory, setActiveCategory] = useState<Category>('All')
+  const [selectedProject, setSelectedProject] = useState<VideoProject | null>(null)
+  const modalVideoRef = useRef<HTMLVideoElement>(null)
+
+  // Lock scroll when modal open
+  useEffect(() => {
+    document.body.style.overflow = selectedProject ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [selectedProject])
+
+  // Play from beginning when a project is selected
+  useEffect(() => {
+    if (!selectedProject) return
+    const timer = setTimeout(() => {
+      const video = modalVideoRef.current
+      if (video) {
+        video.currentTime = 0
+        video.play().catch(() => {
+          // Autoplay with audio blocked — native controls are visible for manual play
+        })
+      }
+    }, 160)
+    return () => clearTimeout(timer)
+  }, [selectedProject])
+
+  // ESC to close
+  useEffect(() => {
+    if (!selectedProject) return
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') closeModal() }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedProject])
+
+  const openProject = useCallback((project: VideoProject) => {
+    setSelectedProject(project)
+  }, [])
+
+  const closeModal = useCallback(() => {
+    if (modalVideoRef.current) {
+      modalVideoRef.current.pause()
+      modalVideoRef.current.currentTime = 0
+    }
+    setSelectedProject(null)
+  }, [])
 
   const filtered = activeCategory === 'All'
     ? projects
     : projects.filter(p => p.category === activeCategory)
 
+  const modal = createPortal(
+    <AnimatePresence>
+      {selectedProject && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.32, ease: 'easeOut' }}
+          onClick={closeModal}
+          style={{
+            position: 'fixed', inset: 0, zIndex: 10000,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            backgroundColor: 'rgba(5,5,5,0.94)',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
+          }}
+        >
+          {/* Top bar */}
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3, delay: 0.1 }}
+            style={{
+              position: 'absolute', top: 0, left: 0, right: 0, height: 72,
+              display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+              padding: '0 32px',
+              borderBottom: '1px solid rgba(245,245,245,0.06)',
+            }}
+          >
+            <span className="label" style={{ color: 'rgba(245,245,245,0.32)', letterSpacing: '0.22em' }}>
+              {selectedProject.title}{selectedProject.label ? ` — ${selectedProject.label}` : ''}
+            </span>
+            <button
+              onClick={(e) => { e.stopPropagation(); closeModal() }}
+              style={{
+                width: 40, height: 40,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                background: 'none', border: '1px solid rgba(245,245,245,0.12)',
+                cursor: 'pointer', color: 'rgba(245,245,245,0.5)',
+                transition: 'color 0.2s, border-color 0.2s',
+                fontFamily: 'inherit', borderRadius: 0,
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = '#F5F5F5'
+                e.currentTarget.style.borderColor = 'rgba(245,245,245,0.32)'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = 'rgba(245,245,245,0.5)'
+                e.currentTarget.style.borderColor = 'rgba(245,245,245,0.12)'
+              }}
+            >
+              <X size={15} strokeWidth={1.5} />
+            </button>
+          </motion.div>
+
+          {/* Video container */}
+          <motion.div
+            initial={{ scale: 0.93, opacity: 0, y: 16 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0.95, opacity: 0, y: 8 }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            onClick={(e) => e.stopPropagation()}
+            style={{ position: 'relative', width: 'min(94vw, 1440px)' }}
+          >
+            <video
+              key={selectedProject.id}
+              ref={modalVideoRef}
+              src={selectedProject.fullVideoSrc}
+              playsInline
+              controls
+              style={{
+                display: 'block', width: '100%',
+                maxHeight: '80vh', objectFit: 'contain',
+              }}
+            />
+          </motion.div>
+
+          {/* Bottom hint */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4, delay: 0.3 }}
+            style={{
+              position: 'absolute', bottom: 28, left: '50%',
+              transform: 'translateX(-50%)', whiteSpace: 'nowrap',
+            }}
+          >
+            <span className="label" style={{ color: 'rgba(245,245,245,0.18)', letterSpacing: '0.18em' }}>
+              ESC or click outside to close
+            </span>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>,
+    document.body
+  )
+
   return (
     <section id="film" ref={ref} style={{ borderTop: '1px solid var(--border)' }}>
+      {modal}
 
-      {/* ── Featured reel ── */}
+      {/* ── Featured reel header ── */}
       <div style={{
         position: 'relative',
         minHeight: '62vh',
@@ -237,16 +390,6 @@ export default function Videography() {
         overflow: 'hidden',
         borderBottom: '1px solid var(--border)',
       }}>
-        {/* Background — replace src with real reel path */}
-        <video
-          autoPlay muted loop playsInline
-          style={{
-            position: 'absolute', inset: 0,
-            width: '100%', height: '100%', objectFit: 'cover',
-            opacity: 0.28,
-          }}
-        />
-
         {/* Fallback dark gradient */}
         <div style={{
           position: 'absolute', inset: 0,
@@ -388,11 +531,16 @@ export default function Videography() {
       {/* ── Project grid ── */}
       <div className="video-grid">
         {filtered.map((project, i) => (
-          <VideoCard key={project.id} project={project} index={i} />
+          <VideoCard
+            key={project.id}
+            project={project}
+            index={i}
+            onClick={project.fullVideoSrc ? () => openProject(project) : undefined}
+          />
         ))}
       </div>
 
-      {/* ── Coming soon note ── */}
+      {/* ── Footer note ── */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={isInView ? { opacity: 1 } : {}}
