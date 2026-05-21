@@ -23,41 +23,14 @@ export default function Hero() {
           justifyContent: 'flex-end',
           padding: '0 40px 64px',
           paddingTop: 'var(--nav-height)',
-          // Left column stays pure black — no gradient bleed
-          backgroundColor: 'var(--black)',
+          background: 'radial-gradient(ellipse 170% 60% at 0% 100%, rgba(16,16,16,0.95) 0%, var(--black) 62%), var(--black)',
         }}
       >
-        {/* Scroll indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.8, delay: 0.9 }}
-          style={{
-            position: 'absolute',
-            top: 'calc(var(--nav-height) + 48px)',
-            left: '40px',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'flex-start',
-            gap: '14px',
-          }}
-        >
-          <div
-            style={{
-              width: '1px',
-              height: '36px',
-              backgroundColor: 'var(--grey)',
-              opacity: 0.4,
-            }}
-          />
-          <span className="label" style={{ opacity: 0.6 }}>Scroll To Explore</span>
-        </motion.div>
-
         {/* Headline */}
         <motion.h1
-          initial={{ opacity: 0, y: 36 }}
+          initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 1.0, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 1.3, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
           style={{
             fontSize: 'clamp(68px, 10.5vw, 150px)',
             fontWeight: 700,
@@ -74,7 +47,7 @@ export default function Hero() {
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.28, ease: 'easeOut' }}
+          transition={{ duration: 1.0, delay: 0.38, ease: [0.22, 1, 0.36, 1] }}
           className="label"
           style={{ maxWidth: '300px', lineHeight: 2, color: '#A1A1A1', marginBottom: '44px' }}
         >
@@ -86,7 +59,7 @@ export default function Hero() {
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.42, ease: 'easeOut' }}
+          transition={{ duration: 0.9, delay: 0.58, ease: [0.22, 1, 0.36, 1] }}
           style={{ display: 'flex', gap: '28px', alignItems: 'center', flexWrap: 'wrap' }}
         >
           <a
@@ -201,7 +174,7 @@ export default function Hero() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.8, delay: 0.75 }}
+          transition={{ duration: 1.0, delay: 0.9, ease: [0.22, 1, 0.36, 1] }}
           style={{
             position: 'absolute',
             bottom: '64px',

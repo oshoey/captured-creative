@@ -40,9 +40,9 @@ export default function App() {
       <Intro onComplete={() => setIntroComplete(true)} />
 
       <motion.div
-        initial={{ opacity: 0, scale: 1.014 }}
-        animate={{ opacity: introComplete ? 1 : 0, scale: introComplete ? 1 : 1.014 }}
-        transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
+        initial={{ opacity: 0, scale: 1.018 }}
+        animate={{ opacity: introComplete ? 1 : 0, scale: introComplete ? 1 : 1.018 }}
+        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
         style={{ transformOrigin: 'center top' }}
       >
         <Nav />

@@ -54,20 +54,15 @@ export default function Nav() {
           }}
         />
 
-        {/* Wordmark */}
+        {/* Metallic wordmark */}
         <a
           href="#"
-          style={{
-            position: 'relative',
-            zIndex: 1,
-            fontSize: '11px',
-            fontWeight: 400,
-            letterSpacing: '0.38em',
-            textTransform: 'uppercase',
-            color: '#F5F5F5',
-          }}
+          onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
+          className="nav-logo-wrap"
+          style={{ position: 'relative', zIndex: 1 }}
         >
-          C A P T U R E D
+          <span className="nav-logo-text">CAPTURED</span>
+          <span className="nav-logo-shine" aria-hidden="true" />
         </a>
 
         {/* Desktop nav */}
@@ -158,16 +153,7 @@ export default function Nav() {
                 justifyContent: 'space-between',
               }}
             >
-              <span
-                style={{
-                  fontSize: '11px',
-                  letterSpacing: '0.38em',
-                  textTransform: 'uppercase',
-                  color: '#F5F5F5',
-                }}
-              >
-                C A P T U R E D
-              </span>
+              <span className="nav-logo-text">CAPTURED</span>
               <button
                 onClick={() => setOpen(false)}
                 aria-label="Close menu"
