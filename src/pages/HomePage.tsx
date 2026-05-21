@@ -4,6 +4,7 @@ import { ArrowRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import Hero from '../components/Hero'
 import FeaturedWork from '../components/FeaturedWork'
+import FeaturedVideoWork from '../components/FeaturedVideoWork'
 
 const services = [
   { num: '01', title: 'Website Design', desc: 'Custom sites, built from scratch.' },
@@ -22,6 +23,7 @@ export default function HomePage() {
     <>
       <Hero />
       <FeaturedWork />
+      <FeaturedVideoWork />
 
       {/* Services teaser */}
       <section ref={servicesRef} style={{ borderTop: '1px solid var(--border)', padding: '80px 40px' }}>

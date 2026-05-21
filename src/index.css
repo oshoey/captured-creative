@@ -439,6 +439,49 @@ section[id="film"] > div:nth-child(2) {
 }
 
 /* ============================================
+   FEATURED VIDEO WORK
+   ============================================ */
+
+.video-feature-card {
+  border: 1px solid rgba(245, 245, 245, 0.07);
+}
+
+/* 21:9 cinematic ratio on desktop */
+.video-feature-ratio {
+  padding-bottom: 42.857%; /* 9/21 */
+}
+
+@media (max-width: 900px) {
+  .video-feature-ratio {
+    padding-bottom: 56.25%; /* 16:9 */
+  }
+}
+
+@media (max-width: 768px) {
+  .video-feature-ratio {
+    padding-bottom: 64%;
+  }
+
+  .video-feature-card h3 {
+    font-size: clamp(44px, 13vw, 72px) !important;
+  }
+
+  .video-section-header {
+    padding: 44px 22px 28px !important;
+  }
+
+  .video-section-card-wrap {
+    padding: 0 22px 56px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .video-feature-ratio {
+    padding-bottom: 75%; /* closer to 4:3 on small mobile */
+  }
+}
+
+/* ============================================
    SCROLLBAR
    ============================================ */
 
