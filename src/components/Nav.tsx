@@ -56,18 +56,13 @@ export default function Nav() {
           }}
         />
 
-        {/* Logo image */}
+        {/* Wordmark */}
         <Link
           to="/"
           className="nav-logo-wrap"
           style={{ position: 'relative', zIndex: 1 }}
         >
-          <img
-            src="/logo-nav.png"
-            alt="Captured"
-            className="nav-logo-img"
-            draggable={false}
-          />
+          <span className="nav-logo-text">CAPTURED</span>
           <span className="nav-logo-shine" aria-hidden="true" />
         </Link>
 
@@ -159,13 +154,8 @@ export default function Nav() {
                 justifyContent: 'space-between',
               }}
             >
-              <Link to="/" onClick={() => setOpen(false)}>
-                <img
-                  src="/logo-nav.png"
-                  alt="Captured"
-                  className="nav-logo-img nav-logo-img--mobile"
-                  draggable={false}
-                />
+              <Link to="/" className="nav-logo-wrap" onClick={() => setOpen(false)}>
+                <span className="nav-logo-text">CAPTURED</span>
               </Link>
               <button
                 onClick={() => setOpen(false)}

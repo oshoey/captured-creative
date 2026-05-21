@@ -358,25 +358,7 @@ section[id="film"] > div:nth-child(2) {
 }
 
 /* ============================================
-   NAV LOGO IMAGE
-   ============================================ */
-
-.nav-logo-img {
-  /* 1189 × 245 px asset — ratio ≈ 4.85 : 1 */
-  height: clamp(30px, 3vw, 40px);
-  width: auto;
-  max-width: 210px;
-  object-fit: contain;
-  display: block;
-  user-select: none;
-}
-
-.nav-logo-img--mobile {
-  height: clamp(26px, 6vw, 34px);
-}
-
-/* ============================================
-   METALLIC NAV LOGO
+   NAV WORDMARK
    ============================================ */
 
 .nav-logo-wrap {
@@ -386,75 +368,71 @@ section[id="film"] > div:nth-child(2) {
   align-items: center;
   padding: 6px 0;
   cursor: pointer;
-  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-              filter 0.4s ease;
+  transition: opacity 0.35s ease;
   text-decoration: none;
 }
 
 .nav-logo-wrap:hover {
-  transform: scale(1.03);
-  filter: brightness(1.22);
+  opacity: 0.72;
 }
 
 .nav-logo-text {
-  font-size: 11px;
-  font-weight: 400;
-  letter-spacing: 0.38em;
+  font-size: clamp(13px, 1.4vw, 15px);
+  font-weight: 300;
+  letter-spacing: 0.36em;
   text-transform: uppercase;
   background: linear-gradient(
-    175deg,
-    #848484 0%,
-    #b8b8b8 18%,
-    #e2e2e2 34%,
-    #f8f8f8 44%,
-    #ffffff 50%,
-    #f0f0f0 56%,
-    #d0d0d0 68%,
-    #b0b0b0 80%,
-    #c8c8c8 92%,
-    #989898 100%
+    170deg,
+    #909090 0%,
+    #c4c4c4 22%,
+    #e8e8e8 40%,
+    #f9f9f9 50%,
+    #e4e4e4 60%,
+    #c0c0c0 76%,
+    #a8a8a8 100%
   );
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;
+  user-select: none;
 }
 
 .nav-logo-shine {
   position: absolute;
   top: -20%;
   left: 0;
-  width: 38%;
+  width: 36%;
   height: 140%;
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(255, 255, 255, 0.06) 30%,
-    rgba(255, 255, 255, 0.20) 50%,
-    rgba(255, 255, 255, 0.06) 70%,
+    rgba(255, 255, 255, 0.04) 30%,
+    rgba(255, 255, 255, 0.14) 50%,
+    rgba(255, 255, 255, 0.04) 70%,
     transparent 100%
   );
   mix-blend-mode: overlay;
   pointer-events: none;
   transform: translateX(-160%);
-  animation: navLogoSweep 11s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-  animation-delay: 3.5s;
+  animation: navLogoSweep 13s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  animation-delay: 4s;
 }
 
 @keyframes navLogoSweep {
-  0%, 76% {
+  0%, 78% {
     transform: translateX(-160%);
     opacity: 0;
   }
-  78% {
+  80% {
     opacity: 1;
     transform: translateX(-160%);
   }
-  90% {
+  92% {
     transform: translateX(370%);
-    opacity: 0.85;
+    opacity: 0.7;
   }
-  92%, 100% {
+  94%, 100% {
     transform: translateX(370%);
     opacity: 0;
   }
@@ -1054,10 +1032,6 @@ section[id="film"] > div:nth-child(2) {
 
   .contact-form-row {
     grid-template-columns: 1fr !important;
-  }
-
-  .nav-logo-wrap img {
-    height: 22px;
   }
 
   .home-services-grid {
